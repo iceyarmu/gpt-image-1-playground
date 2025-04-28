@@ -4,6 +4,14 @@ import zh from '../i18n/zh.json'
 export type Language = 'en' | 'zh'
 export type TranslationKey = keyof typeof en
 
+// Type for nested translation object structure
+type NestedTranslation = {
+  [key: string]: string | NestedTranslation
+}
+
+// Type for translation parameters
+type TranslationParams = Record<string, string | number>
+
 export const translations = {
   en,
   zh,
@@ -16,15 +24,15 @@ export function getLanguage(): Language {
   return browserLang.startsWith('zh') ? 'zh' : 'en'
 }
 
-export function t(key: string, params?: Record<string, any>, lang: Language = getLanguage()): string {
+export function t(key: string, params?: TranslationParams, lang: Language = getLanguage()): string {
   const keys = key.split('.')
-  let value: any = translations[lang]
+  let value: string | NestedTranslation = translations[lang]
   
   for (const k of keys) {
-    value = value?.[k]
+    value = (value as NestedTranslation)?.[k]
   }
   
-  if (!value) return key
+  if (!value || typeof value !== 'string') return key
 
   if (params) {
     return value.replace(/\${(\w+)}/g, (match: string, param: string) => {
@@ -38,7 +46,7 @@ export function t(key: string, params?: Record<string, any>, lang: Language = ge
 export function useTranslation() {
   const lang = getLanguage()
   return {
-    t: (key: string, params?: Record<string, any>) => t(key, params, lang),
+    t: (key: string, params?: TranslationParams) => t(key, params, lang),
     lang
   }
 }
