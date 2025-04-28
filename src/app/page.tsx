@@ -1,6 +1,7 @@
 "use client"; 
 
 import * as React from "react";
+import { useTranslation } from "@/lib/i18n";
 import { GenerationForm, type GenerationFormData } from "@/components/generation-form";
 import { EditingForm, type EditingFormData } from "@/components/editing-form";
 import { ImageOutput } from "@/components/image-output";
@@ -33,6 +34,7 @@ type DrawnPoint = {
 const MAX_EDIT_IMAGES = 10;
 
 export default function HomePage() {
+  const { t } = useTranslation();
   const [mode, setMode] = React.useState<"generate" | "edit">("generate");
   const [isLoading, setIsLoading] = React.useState(false);
   const [isSendingToEdit, setIsSendingToEdit] = React.useState(false);
@@ -285,7 +287,7 @@ export default function HomePage() {
   };
 
   const handleClearHistory = () => {
-    if (window.confirm("Are you sure you want to clear the entire image history? This cannot be undone.")) {
+    if (window.confirm(t('history.confirmClear'))) {
         setHistory([]);
         setLatestImageBatch(null);
         setImageOutputView('grid');
@@ -417,7 +419,7 @@ export default function HomePage() {
           <div className="flex flex-col h-[70vh] min-h-[600px] lg:col-span-1">
             {error && (
                 <Alert variant="destructive" className="mb-4 border-red-500/50 bg-red-900/20 text-red-300">
-                    <AlertTitle className="text-red-200">Error</AlertTitle>
+                    <AlertTitle className="text-red-200">{t('error')}</AlertTitle>
                     <AlertDescription>{error}</AlertDescription>
                 </Alert>
             )}
@@ -425,7 +427,7 @@ export default function HomePage() {
                imageBatch={latestImageBatch}
                viewMode={imageOutputView}
                onViewChange={setImageOutputView}
-               altText="Generated image output"
+               altText={t('imageOutput.altText')}
                isLoading={isLoading || isSendingToEdit}
                onSendToEdit={handleSendToEdit}
                currentMode={mode}

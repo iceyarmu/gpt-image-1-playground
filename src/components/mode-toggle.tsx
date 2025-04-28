@@ -1,6 +1,7 @@
 "use client";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTranslation } from "@/lib/i18n";
 
 type ModeToggleProps = {
   currentMode: "generate" | "edit";
@@ -8,6 +9,7 @@ type ModeToggleProps = {
 };
 
 export function ModeToggle({ currentMode, onModeChange }: ModeToggleProps) {
+  const { t } = useTranslation();
   return (
     <Tabs
       value={currentMode}
@@ -26,7 +28,7 @@ export function ModeToggle({ currentMode, onModeChange }: ModeToggleProps) {
             }
           `}
         >
-          Generate
+          {t('mode.generate')}
         </TabsTrigger>
         <TabsTrigger
           value="edit"
@@ -39,7 +41,7 @@ export function ModeToggle({ currentMode, onModeChange }: ModeToggleProps) {
             }
           `}
         >
-          Edit
+          {t('mode.edit')}
         </TabsTrigger>
       </TabsList>
     </Tabs>

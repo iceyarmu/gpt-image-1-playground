@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useTranslation } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -97,7 +98,7 @@ export function GenerationForm({
     moderation,
     setModeration
 }: GenerationFormProps) {
-
+  const { t } = useTranslation();
   const showCompression = outputFormat === "jpeg" || outputFormat === "webp";
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -121,9 +122,9 @@ export function GenerationForm({
     <Card className="w-full h-full border border-white/10 bg-black overflow-hidden flex flex-col rounded-lg">
       <CardHeader className="pb-4 border-b border-white/10 flex justify-between items-start">
         <div>
-            <CardTitle className="text-lg font-medium text-white">Generate Image</CardTitle>
+            <CardTitle className="text-lg font-medium text-white">{t('generate.title')}</CardTitle>
             <CardDescription className="text-white/60 mt-1">
-              Create a new image from a text prompt using gpt-image-1.
+              {t('generate.description')}
             </CardDescription>
         </div>
         <ModeToggle currentMode={currentMode} onModeChange={onModeChange} />
@@ -131,10 +132,10 @@ export function GenerationForm({
       <form onSubmit={handleSubmit} className="flex flex-col flex-1 h-full overflow-hidden">
         <CardContent className="p-4 space-y-5 flex-1 overflow-y-auto">
           <div className="space-y-1.5">
-            <Label htmlFor="prompt" className="text-white">Prompt</Label>
+            <Label htmlFor="prompt" className="text-white">{t('generate.prompt')}</Label>
             <Textarea
               id="prompt"
-              placeholder="e.g., A photorealistic cat astronaut floating in space"
+              placeholder={t('generate.promptPlaceholder')}
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               required
@@ -144,7 +145,7 @@ export function GenerationForm({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="n-slider" className="text-white">Number of Images: {n[0]}</Label>
+            <Label htmlFor="n-slider" className="text-white">{t('generate.numImages')}: {n[0]}</Label>
             <Slider
               id="n-slider"
               min={1}
@@ -158,51 +159,51 @@ export function GenerationForm({
           </div>
 
           <div className="space-y-3">
-            <Label className="text-white block">Size</Label>
+            <Label className="text-white block">{t('generate.size')}</Label>
             <RadioGroup
                 value={size}
                 onValueChange={(value) => setSize(value as GenerationFormData['size'])}
                 disabled={isLoading}
                 className="flex flex-wrap gap-x-5 gap-y-3"
             >
-                <RadioItemWithIcon value="auto" id="size-auto" label="Auto" Icon={Sparkles} />
-                <RadioItemWithIcon value="1024x1024" id="size-square" label="Square" Icon={Square} />
-                <RadioItemWithIcon value="1536x1024" id="size-landscape" label="Landscape" Icon={RectangleHorizontal} />
-                <RadioItemWithIcon value="1024x1536" id="size-portrait" label="Portrait" Icon={RectangleVertical} />
+                <RadioItemWithIcon value="auto" id="size-auto" label={t('generate.sizeAuto')} Icon={Sparkles} />
+                <RadioItemWithIcon value="1024x1024" id="size-square" label={t('generate.sizeSquare')} Icon={Square} />
+                <RadioItemWithIcon value="1536x1024" id="size-landscape" label={t('generate.sizeLandscape')} Icon={RectangleHorizontal} />
+                <RadioItemWithIcon value="1024x1536" id="size-portrait" label={t('generate.sizePortrait')} Icon={RectangleVertical} />
             </RadioGroup>
           </div>
 
           <div className="space-y-3">
-            <Label className="text-white block">Quality</Label>
+            <Label className="text-white block">{t('generate.quality')}</Label>
              <RadioGroup
                 value={quality}
                 onValueChange={(value) => setQuality(value as GenerationFormData['quality'])}
                 disabled={isLoading}
                 className="flex flex-wrap gap-x-5 gap-y-3"
             >
-                <RadioItemWithIcon value="auto" id="quality-auto" label="Auto" Icon={Sparkles} />
-                <RadioItemWithIcon value="low" id="quality-low" label="Low" Icon={Tally1} />
-                <RadioItemWithIcon value="medium" id="quality-medium" label="Medium" Icon={Tally2} />
-                <RadioItemWithIcon value="high" id="quality-high" label="High" Icon={Tally3} />
+                <RadioItemWithIcon value="auto" id="quality-auto" label={t('generate.qualityAuto')} Icon={Sparkles} />
+                <RadioItemWithIcon value="low" id="quality-low" label={t('generate.qualityLow')} Icon={Tally1} />
+                <RadioItemWithIcon value="medium" id="quality-medium" label={t('generate.qualityMedium')} Icon={Tally2} />
+                <RadioItemWithIcon value="high" id="quality-high" label={t('generate.qualityHigh')} Icon={Tally3} />
             </RadioGroup>
           </div>
 
           <div className="space-y-3">
-            <Label className="text-white block">Background</Label>
+            <Label className="text-white block">{t('generate.background')}</Label>
              <RadioGroup
                 value={background}
                 onValueChange={(value) => setBackground(value as GenerationFormData['background'])}
                 disabled={isLoading}
                 className="flex flex-wrap gap-x-5 gap-y-3"
             >
-                <RadioItemWithIcon value="auto" id="bg-auto" label="Auto" Icon={Sparkles} />
-                <RadioItemWithIcon value="opaque" id="bg-opaque" label="Opaque" Icon={BrickWall} />
-                <RadioItemWithIcon value="transparent" id="bg-transparent" label="Transparent" Icon={Eraser} />
+                <RadioItemWithIcon value="auto" id="bg-auto" label={t('generate.backgroundAuto')} Icon={Sparkles} />
+                <RadioItemWithIcon value="opaque" id="bg-opaque" label={t('generate.backgroundOpaque')} Icon={BrickWall} />
+                <RadioItemWithIcon value="transparent" id="bg-transparent" label={t('generate.backgroundTransparent')} Icon={Eraser} />
             </RadioGroup>
           </div>
 
            <div className="space-y-3">
-            <Label className="text-white block">Output Format</Label>
+            <Label className="text-white block">{t('generate.format')}</Label>
              <RadioGroup
                 value={outputFormat}
                 onValueChange={(value) => setOutputFormat(value as GenerationFormData['output_format'])}
@@ -217,7 +218,7 @@ export function GenerationForm({
 
           {showCompression && (
             <div className="space-y-2 transition-opacity duration-300 pt-2">
-              <Label htmlFor="compression-slider" className="text-white">Compression: {compression[0]}%</Label>
+              <Label htmlFor="compression-slider" className="text-white">{t('generate.compression')}: {compression[0]}%</Label>
               <Slider
                 id="compression-slider"
                 min={0}
@@ -232,15 +233,15 @@ export function GenerationForm({
           )}
 
           <div className="space-y-3">
-            <Label className="text-white block">Moderation Level</Label>
+            <Label className="text-white block">{t('generate.moderation')}</Label>
              <RadioGroup
                 value={moderation}
                 onValueChange={(value) => setModeration(value as GenerationFormData['moderation'])}
                 disabled={isLoading}
                 className="flex flex-wrap gap-x-5 gap-y-3"
             >
-                <RadioItemWithIcon value="auto" id="mod-auto" label="Auto" Icon={ShieldCheck} />
-                <RadioItemWithIcon value="low" id="mod-low" label="Low" Icon={ShieldAlert} />
+                <RadioItemWithIcon value="auto" id="mod-auto" label={t('generate.moderationAuto')} Icon={ShieldCheck} />
+                <RadioItemWithIcon value="low" id="mod-low" label={t('generate.moderationLow')} Icon={ShieldAlert} />
             </RadioGroup>
           </div>
 
@@ -248,7 +249,7 @@ export function GenerationForm({
         <CardFooter className="p-4 border-t border-white/10">
           <Button type="submit" disabled={isLoading || !prompt} className="w-full bg-white text-black hover:bg-white/90 disabled:bg-white/10 disabled:text-white/40 rounded-md flex items-center justify-center gap-2">
             {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-            {isLoading ? "Generating..." : "Generate"}
+            {isLoading ? t('generate.loading') : t('generate.submit')}
           </Button>
         </CardFooter>
       </form>

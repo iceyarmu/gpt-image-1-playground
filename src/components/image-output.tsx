@@ -1,6 +1,7 @@
 "use client";
 
 import Image from 'next/image';
+import { useTranslation } from "@/lib/i18n";
 import { Loader2, Send, Grid } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -38,6 +39,7 @@ export function ImageOutput({
   currentMode,
   baseImagePreviewUrl
 }: ImageOutputProps) {
+  const { t } = useTranslation();
 
   const handleSendClick = () => {
     // Send to edit only works when a single image is selected
@@ -59,7 +61,7 @@ export function ImageOutput({
             <div className="w-full h-full flex items-center justify-center relative">
               <Image
                 src={baseImagePreviewUrl}
-                alt="Base image for editing"
+                alt={t('imageOutput.baseImageAlt')}
                 fill
                 style={{ objectFit: 'contain' }}
                 className="filter blur-md"
@@ -67,13 +69,13 @@ export function ImageOutput({
               />
               <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 text-white/80">
                 <Loader2 className="h-8 w-8 animate-spin mb-2" />
-                <p>Editing image...</p>
+                <p>{t('imageOutput.editingImage')}</p>
               </div>
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center text-white/60">
               <Loader2 className="h-8 w-8 animate-spin mb-2" />
-              <p>Generating image...</p>
+              <p>{t('imageOutput.generatingImage')}</p>
             </div>
           )
         ) : imageBatch && imageBatch.length > 0 ? (
@@ -83,7 +85,7 @@ export function ImageOutput({
                 <div key={img.filename} className="relative aspect-square overflow-hidden rounded border border-white/10">
                   <Image
                     src={img.path}
-                    alt={`Generated image ${index + 1}`}
+                    alt={t('imageOutput.generatedImageAlt', { index: index + 1 })}
                     fill
                     style={{ objectFit: 'contain' }}
                     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
@@ -104,13 +106,13 @@ export function ImageOutput({
               />
             ) : (
               <div className="text-center text-white/40">
-                <p>Error displaying image.</p>
+                <p>{t('imageOutput.errorDisplaying')}</p>
               </div>
             )
           )
         ) : (
           <div className="text-center text-white/40">
-            <p>Your generated image will appear here.</p>
+            <p>{t('imageOutput.willAppearHere')}</p>
           </div>
         )}
       </div>
@@ -126,7 +128,7 @@ export function ImageOutput({
                 viewMode === 'grid' ? 'bg-white/20 text-white' : 'text-white/50 hover:bg-white/10 hover:text-white/80'
               )}
               onClick={() => onViewChange('grid')}
-              aria-label="Show grid view"
+              aria-label={t('imageOutput.showGridView')}
             >
               <Grid className="h-4 w-4" />
             </Button>
@@ -140,11 +142,11 @@ export function ImageOutput({
                   viewMode === index ? 'ring-2 ring-offset-1 ring-offset-black ring-white' : 'opacity-60 hover:opacity-100'
                 )}
                 onClick={() => onViewChange(index)}
-                aria-label={`Select image ${index + 1}`}
+                aria-label={t('imageOutput.selectImage', { index: index + 1 })}
               >
                 <Image
                   src={img.path}
-                  alt={`Thumbnail ${index + 1}`}
+                  alt={t('imageOutput.thumbnailAlt', { index: index + 1 })}
                   width={28}
                   height={28}
                   className="object-cover w-full h-full"
@@ -167,7 +169,7 @@ export function ImageOutput({
           )}
         >
           <Send className="h-4 w-4 mr-2" />
-          Send to Edit
+          {t('imageOutput.sendToEdit')}
         </Button>
       </div>
     </div>
