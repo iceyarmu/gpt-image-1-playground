@@ -1,5 +1,6 @@
 {
   "title": "Image Generator",
+  "description": "Generate and edit images using OpenAI's gpt-image-1 model.",
   "error": "Error",
   "mode": {
     "generate": "Generate",

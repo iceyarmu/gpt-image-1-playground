@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { t } from "@/lib/i18n";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,10 +15,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "gpt-image-1 playground",
-  description: "Generate and edit images using OpenAI's gpt-image-1 model.",
+  title: t("title"),
+  description: t("description"),
   icons: {
-    icon: "/favicon.svg",
+    icon: "favicon-32x32.png",
   },
 };
 

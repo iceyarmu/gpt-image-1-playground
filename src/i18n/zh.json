@@ -1,5 +1,6 @@
 {
-  "title": "图像生成器",
+  "title": "GPT图像生成器",
+  "description": "使用 OpenAI 的 gpt-image-1 模型生成和编辑图像。",
   "error": "错误",
   "mode": {
     "generate": "生成",
