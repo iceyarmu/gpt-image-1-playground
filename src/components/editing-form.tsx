@@ -118,6 +118,56 @@ export function EditingForm({
   const [firstImagePreviewUrl, setFirstImagePreviewUrl] = React.useState<string | null>(null);
 
 
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleFileDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.dataTransfer.files) {
+      const isImageFile = (file: File) => {
+        // Check MIME type
+        const validTypes = ["image/png", "image/jpeg", "image/webp"];
+        if (validTypes.includes(file.type)) return true;
+        
+        // Check file extension as fallback
+        const fileName = file.name.toLowerCase();
+        return fileName.endsWith('.png') ||
+               fileName.endsWith('.jpg') ||
+               fileName.endsWith('.jpeg') ||
+               fileName.endsWith('.webp');
+      };
+
+      const files = Array.from(e.dataTransfer.files).filter(isImageFile);
+      if (files.length > 0) {
+        const totalFiles = imageFiles.length + files.length;
+        if (totalFiles > maxImages) {
+          alert(t('edit.maxImages', { count: maxImages }));
+          files.splice(maxImages - imageFiles.length);
+          if (files.length === 0) return;
+        }
+        setImageFiles(prevFiles => [...prevFiles, ...files]);
+        const newFilePromises = files.map(file => {
+          return new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+          });
+        });
+        Promise.all(newFilePromises)
+          .then(newUrls => {
+            setSourceImagePreviewUrls(prevUrls => [...prevUrls, ...newUrls]);
+          })
+          .catch(error => {
+            console.error("Error reading new image files:", error);
+          });
+      }
+    }
+  };
+
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const visualFeedbackCanvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const isDrawing = React.useRef(false);
@@ -434,7 +484,11 @@ export function EditingForm({
   }
 
   return (
-    <Card className="w-full h-full border border-white/10 bg-black overflow-hidden flex flex-col rounded-lg">
+    <Card
+      className="w-full h-full border border-white/10 bg-black overflow-hidden flex flex-col rounded-lg"
+      onDragOver={handleDragOver}
+      onDrop={handleFileDrop}
+    >
       <CardHeader className="pb-4 border-b border-white/10 flex justify-between items-start">
          <div>
             <CardTitle className="text-lg font-medium text-white">{t('edit.title')}</CardTitle>
