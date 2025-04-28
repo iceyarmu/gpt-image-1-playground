@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
       const output_format = formData.get('output_format') as OpenAI.Images.ImageGenerateParams['output_format'] || 'png';
       const output_compression_str = formData.get('output_compression') as string | null;
       const background = formData.get('background') as OpenAI.Images.ImageGenerateParams['background'] || 'auto';
-      const moderation = formData.get('moderation') as OpenAI.Images.ImageGenerateParams['moderation'] || 'auto';
+      const moderation = formData.get('moderation') as OpenAI.Images.ImageGenerateParams['moderation'] || 'low';
 
       const params: OpenAI.Images.ImageGenerateParams = {
         model,
