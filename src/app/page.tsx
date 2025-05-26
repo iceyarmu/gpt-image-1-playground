@@ -380,7 +380,7 @@ export default function HomePage() {
 
                 let historyQuality: GenerationFormData['quality'] = 'auto';
                 let historyBackground: GenerationFormData['background'] = 'auto';
-                let historyModeration: GenerationFormData['moderation'] = 'auto';
+                let historyModeration: GenerationFormData['moderation'] = 'low';
                 let historyOutputFormat: GenerationFormData['output_format'] = 'png';
                 let historyPrompt: string = '';
 
@@ -393,7 +393,7 @@ export default function HomePage() {
                 } else {
                     historyQuality = editQuality;
                     historyBackground = 'auto';
-                    historyModeration = 'auto';
+                    historyModeration = 'low';
                     historyOutputFormat = 'png';
                     historyPrompt = editPrompt;
                 }

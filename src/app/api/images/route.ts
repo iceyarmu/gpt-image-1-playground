@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
             const background =
                 (formData.get('background') as OpenAI.Images.ImageGenerateParams['background']) || 'auto';
             const moderation =
-                (formData.get('moderation') as OpenAI.Images.ImageGenerateParams['moderation']) || 'auto';
+                (formData.get('moderation') as OpenAI.Images.ImageGenerateParams['moderation']) || 'low';
 
             const params: OpenAI.Images.ImageGenerateParams = {
                 model,
